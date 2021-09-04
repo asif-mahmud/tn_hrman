@@ -1,0 +1,27 @@
+/* some fixes for different screen sizes */
+.dropdownBtn {
+  box-shadow: none !important;
+  color: rgba(255, 255, 255, 0.55) !important;
+}
+
+@media (min-width: 768px) {
+  .dropdownMenu {
+    margin-top: 0.5rem !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .dropdownBtn {
+    width: 100%;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    border: none;
+    text-align: left;
+    background: transparent !important;
+  }
+
+  .dropdownMenu {
+    border: none;
+    background: transparent !important;
+  }
+}

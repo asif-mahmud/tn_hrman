@@ -1,0 +1,87 @@
+#+STARTUP: indent showall
+
+* HR Manager
+HR management application in monorepo environment. User can
+add employees one at a time or many at a time, send email to
+individual employee or in batch.
+
+** Requirements
+1. [[https://nodejs.org/][Node.js (10 or higher)]]
+2. [[https://yarnpkg.com/][Yarn]] or npm (project is managed by yarn, but npm will do too)
+3. [[https://nx.dev/][Nx build framework]]
+4. MySQL/MariaDB
+
+** Setup
+*** Installing requirements
+First install all the required software/tools mentioned above.
+Among them yarn (if used) and nx must be installed globally.
+
+*** Preparing database
+Startup up mysql/mariadb server and add a database and a user
+with full control over the created database. A sample to create
+mysql database and user via mysql cli is as follows -
+
+#+BEGIN_SRC shell
+  MariaDB [(none)]> create database hrman_db;
+  Query OK, 1 row affected (0.000 sec)
+
+  MariaDB [(none)]> create user 'hrman'@'localhost' identified by '1234';
+  Query OK, 0 rows affected (0.037 sec)
+
+  MariaDB [(none)]> grant all on hrman_db.* to 'hrman'@'localhost';
+  Query OK, 0 rows affected (0.042 sec)
+#+END_SRC
+
+*** Configure application
+Add database connection parameters by creating a file named ~.env.local~
+in the project root directory. The contents of the file should be as
+follows -
+
+#+BEGIN_SRC shell
+  NX_DB_HOST=localhost
+  NX_DB_PORT=3306
+  NX_DB_NAME=hrman_db
+  NX_DB_USER=hrman
+  NX_DB_PASS=1234
+  NX_MAIL_HOST=<smtp host address>
+  NX_MAIL_PORT=<smtp port>
+  NX_MAIL_USER=<smtp user account name>
+  NX_MAIL_PASS=<smtp user account password>
+#+END_SRC
+
+Please change the parameters to match your database and user.
+
+Among the above parameters, ~NX_MAIL_*~ parameters are optional, use
+them to provide your mail server configuration. If one or more of
+them are not provided, the backend will not send email but still
+report a successful operation. If all of them are provided backend
+will try to send email and report based on the result.
+
+*** Install nodejs packages
+Clone this repository and run the following command if
+you are using yarn -
+
+#+BEGIN_SRC shell
+  yarn install
+#+END_SRC
+
+** Start using
+There are 2 applications under this repository - [[file:apps/backend/][backend]]
+and [[file:apps/frontend/][frontend]]. Backend is based on [[http://expressjs.com/][Express.js]] and
+frontend is based on [[https://reactjs.org/][ReactJS]]. There are other libraries
+and frameworks used alongside them, for full list of dependencies
+please check out the [[file:package.json][package.json]].
+
+To run both backend and frontend with one command run the following
+command in the project root directory -
+
+#+BEGIN_SRC shell
+  yarn serve
+#+END_SRC
+
+There are other commands available to run in developement mode
+or build for production for both backend and frontend. Please check
+the scripts section of [[file:package.json][package.json]].
+
+When both applications are running, open your browser and navigate
+to [[http://localhost:4200/][http://localhost:4200/]].
